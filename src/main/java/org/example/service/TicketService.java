@@ -7,6 +7,10 @@ import org.example.model.TicketType;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.EqualsAndHashCode;
 
 public class TicketService {
     private final Map<Long, Ticket> tickets = new ConcurrentHashMap<>();
@@ -35,10 +39,10 @@ public class TicketService {
 
 
 
-    public boolean updateTicketStatus(Long ticketId, TicketStatus newStatus) {
+    public void updateTicketStatus(Long ticketId, TicketStatus newStatus) {
         Optional<Ticket> ticketOpt = getTicket(ticketId);
         if (ticketOpt.isEmpty()) {
-            return false;
+            return ;
         }
         
         Ticket ticket = ticketOpt.get();
@@ -51,11 +55,10 @@ public class TicketService {
         
         if (newStatus == ticket.getFinalStatus() && !ticket.areAllSubTasksCompleted()) {
             throw new IllegalStateException(
-                "Cannot close ticket " + ticketId + " - mark all sub-task completed to change status");
+                "Cannot close ticket " + ticketId + "  mark all sub-task completed to change status");
         }
         
         ticket.setStatus(newStatus);
-        return true;
     }
 
     public boolean updateTicketAssignee(Long ticketId, String newAssignee) {

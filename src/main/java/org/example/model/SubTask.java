@@ -1,12 +1,22 @@
 package org.example.model;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.EqualsAndHashCode;
+
 import java.time.LocalDateTime;
 
-
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode(of = "id")
 public class SubTask {
     private static long counter = 1;
 
     private final Long id;
     private final Long parentTicketId;
+
     private String title;
     private String description;
     private TicketStatus status;
@@ -27,17 +37,6 @@ public class SubTask {
         this.version = 1L;
     }
 
-    public Long getId() { return id; }
-    public Long getParentTicketId() { return parentTicketId; }
-    public String getTitle() { return title; }
-    public String getDescription() { return description; }
-    public TicketStatus getStatus() { return status; }
-    public String getAssignee() { return assignee; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public Long getVersion() { return version; }
-
-
     public void setStatus(TicketStatus status) {
         this.status = status;
         updateTimestamp();
@@ -52,12 +51,4 @@ public class SubTask {
         this.updatedAt = LocalDateTime.now();
         this.version++;
     }
-
-    @Override
-    public String toString() {
-        return String.format("SubTask{id=%d, parentTicketId=%d, title='%s', status=%s, assignee='%s'}",
-                           id, parentTicketId, title, status, assignee);
-    }
-
-
 }

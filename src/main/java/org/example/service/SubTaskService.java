@@ -103,9 +103,7 @@ public class SubTaskService {
         SubTask subTask = subTaskOpt.get();
         
         Optional<Ticket> parentTicket = ticketService.getTicket(subTask.getParentTicketId());
-        if (parentTicket.isPresent()) {
-            parentTicket.get().removeSubTask(subTask);
-        }
+        parentTicket.ifPresent(ticket -> ticket.removeSubTask(subTask));
         
         return subTasks.remove(subTaskId) != null;
     }
